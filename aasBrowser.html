@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="libraries/bootstrap/4.6.0/css/bootstrap.min.css">
+<!-- Lenze Specific Styles -->
+<link rel="stylesheet" href="css/lenze/lenze.min.css">
+
+<title>Asset Administration Shell - Browser</title>
+
+<link rel="icon" type="image/svg+xml" sizes="192x192" href="local_icons/PlattformI4.0/logo.svg">
+
+<script src="libraries/jquery/3.6.0/jquery.min.js"></script>
+<script src="libraries/popper.js/core/2.9.1/popper.min.js"></script>
+<script src="libraries/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+<script src="libraries/js-cookie/2.2.1/js.cookie.min.js"></script>
+
+<script type="text/javascript" src="AjaxHelper.js"></script>
+<script type="text/javascript" src="Base.js"></script>
+<script type="text/javascript" src="BaseCookieHandler.js"></script>
+<script type="text/javascript" src="AASCookieHandler.js"></script>
+<script type="text/javascript" src="PrinterHtmlElements.js"></script>
+<script type="text/javascript" src="AASPrinterMetamodelElements.js"></script>
+<script type="text/javascript" src="AASPrinterGeneric.js"></script>
+<script type="text/javascript" src="ParserBase.js"></script>
+<script type="text/javascript" src="AASParser.js"></script>
+<script type="text/javascript" src="AASListPrinter.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+   onLoadAASPrinter();
+});
+</script>
+</head>
+<body>
+<div id = "nav" class = "container-fluid">
+<nav class="navbar navbar-expand pb-0">
+    <a class="navbar-brand">
+      <img src="local_icons/PlattformI4.0/logo.svg" width="100" class="d-inline-block align-middle" alt="">
+    </a>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active">Asset Administration Shell - Browser</a>
+  </li>
+    <li class="nav-item">
+    <a class="nav-link nav-right" href="registryBrowser.html" onclick="">Asset Administration Shell - Registry Browser</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link nav-right" href="#null" onclick="javascript:history.back();">Go Back</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link nav-right" onclick="javascript:showAASList($('#selectAASModal'));">Select AAS</a>
+  <li>
+</ul>
+</nav>
+
+  <div id = "rootElement" class = "col">
+  </div>
+
+  <div class="modal fade" id="selectAASModal" tabindex="-1" role="dialog" aria-labelledby="selectAASModal" aria-hidden="true">
+  </div>
+</body>
+</html>
