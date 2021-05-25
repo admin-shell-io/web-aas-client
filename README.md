@@ -16,9 +16,10 @@ and vice versa.
 # Prerequisites
 1. AAS-Server: You need an AAS-Server that hosts your AASs. At this point,
 the server can be based on the aasx-server, the aasx-package-explorer or basyx.
-2. Web-server for the web-aas-client: 
-3. Web Browser: You can use any modern web browser to use the web-aas-client
-4. CORS-Plugin: Due to the mentioned restrictions you might need a CORS-Plugin
+2. Web-server for the web-aas-client: You need any common Web Server to deploy 
+this project e.g.: Apache2.
+4. Web Browser: You can use any modern web browser to use the web-aas-client
+5. CORS-Plugin: Due to the mentioned restrictions you might need a CORS-Plugin
 for your browser.
 
 # Usage
