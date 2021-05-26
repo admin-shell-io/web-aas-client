@@ -26,10 +26,10 @@ for your browser.
 1. You can access the AAS-client via ServerEndpoint/aasBrowser.html; Attach the
 link to your AAS: 
 ```
-aasBrowser.html?shell=http://myAASServer...
+aasBrowser.html?shell=http://myAASServer/../aasEndpoint
 ```
 2. You can access the registry-client via ServerEndpoint/registryBrowser.html;
 Attach the link to your registry:
 ```
-registryBrowser.html?registry=http://myRegistryServer...
+registryBrowser.html?registry=http://myRegistryServer/.../registstryEndpoint
 ```
