@@ -24,7 +24,9 @@ class AASListPrinter extends PrinterHtmlElements {
 
       this.listBody = null;
 
-      this.tBrowserURL = window.location.origin + window.location.pathname;
+      var pathname = window.location.pathname;
+      pathname = pathname.replace("registryBrowser.html", "aasBrowser.html");
+      this.tBrowserURL = window.location.origin + pathname;
 
       this.colors = new Object();
       this.colors.AASColor = "bg-lenzeblue";
