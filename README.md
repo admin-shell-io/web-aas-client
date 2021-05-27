@@ -17,7 +17,7 @@ and vice versa.
 1. AAS-Server: You need an AAS-Server that hosts your AASs. At this point,
 the server can be based on the aasx-server, the aasx-package-explorer or basyx.
 2. Web-server for the web-aas-client: You need any common Web Server to deploy 
-this project e.g.: Apache2.
+this project e.g.: Apache2 or IIS.
 4. Web Browser: You can use any modern web browser to use the web-aas-client
 5. CORS-Plugin: Due to the mentioned restrictions you might need a CORS-Plugin
 for your browser.
@@ -37,9 +37,9 @@ registryBrowser.html?registry=http://myRegistryServer/.../registstryEndpoint
 # Examples
 You can access the AAS on the AASX Server: 
 ```
-https://admin-shell-io.com:5001/
+[https://admin-shell-io.com:5001](https://admin-shell-io.com:5001)
 ```
 To access the first AAS on that server with idShort Festo_3S7PM0CP4BD please click:
 ```
-https://admin-shell-io.com/web-aas-client/?shell=https://admin-shell-io.com:51411/aas/Festo_3S7PM0CP4BD
+[https://admin-shell-io.com/web-aas-client/?shell=https://admin-shell-io.com:51411/aas/Festo_3S7PM0CP4BD](https://admin-shell-io.com/web-aas-client/?shell=https://admin-shell-io.com:51411/aas/Festo_3S7PM0CP4BD)
 ```
