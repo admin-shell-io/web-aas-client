@@ -33,3 +33,13 @@ Attach the link to your registry:
 ```
 registryBrowser.html?registry=http://myRegistryServer/.../registstryEndpoint
 ```
+
+# Examples
+You can access the AAS on the AASX Server: 
+```
+https://admin-shell-io.com:5001/
+```
+To access the first AAS on that server with idShort Festo_3S7PM0CP4BD please click:
+```
+https://admin-shell-io.com/web-aas-client/?shell=https://admin-shell-io.com:51411/aas/Festo_3S7PM0CP4BD
+```
