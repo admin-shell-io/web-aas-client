@@ -33,7 +33,7 @@ class RegistryParser extends ParserBase {
                                         "AssetAdministrationShellRegistryRoot");
       this.treeRoot = this.RegistryRoot;
       
-      this.cookieHandler = new AASCookieHandler();
+      this.aasStorageHandler = new AASWebStorageHandler();
    }
 
    run() {
@@ -41,11 +41,11 @@ class RegistryParser extends ParserBase {
       if (regURL) {
          regURL = decodeURIComponent(regURL);
          regURL = this.trimSuffixSlash(regURL);
-         //this.cookieHandler.setCurrentAAS(shellURL);
+         //this.aasStorageHandler.setCurrentAAS(shellURL);
       }
 
       // Set extra base URL
-      var registryURL = new URL(regURL); /*new URL(this.cookieHandler.getCurrentRegistry());*/
+      var registryURL = new URL(regURL); /*new URL(this.aasStorageHandler.getCurrentRegistry());*/
       this.RegistryRoot.tRootURL = this.trimSuffixSlash(registryURL.origin);
       this.RegistryRoot.tLocalRootURL = this.trimSuffixSlash(this.RegistryRoot.tRootURL);
       var split = registryURL.pathname.split("/");
@@ -54,7 +54,7 @@ class RegistryParser extends ParserBase {
       // Set extra browser URL
       this.RegistryRoot.tBrowserURL = window.location.origin
          + window.location.pathname;
-      this.RegistryRoot.tURL = registryURL.href;/*this.cookieHandler.getCurrentRegistry()*/;
+      this.RegistryRoot.tURL = registryURL.href;/*this.aasStorageHandler.getCurrentRegistry()*/;
 
       this.getByURL(this.RegistryRoot,
             this.RegistryRoot.tURL,
@@ -63,7 +63,7 @@ class RegistryParser extends ParserBase {
    }
 
    addURLToList(URL) {
-      this.cookieHandler.addAASURL(URL, true);
+      this.aasStorageHandler.addAASURL(URL, true);
    }
 
    trimSuffixSlash(URL) {
@@ -113,7 +113,7 @@ class RegistryParser extends ParserBase {
          RegistryJSON = RegistryJSON.entity;
       var registry = this.parseRegistry(RegistryJSON, this.RegistryRoot);
       
-      this.cookieHandler.writeAASMap();
+      this.aasStorageHandler.writeAASMap();
 
       console.log(registry);
 

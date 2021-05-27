@@ -3,9 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
   
-class AASCookieHandler extends BaseCookieHandler {
+class AASWebStorageHandler {
    constructor() {
-      super();
       this.setCurrentAAS = this.setCurrentAAS.bind(this);
       this.getCurrentAAS = this.getCurrentAAS.bind(this);
       this.addAASURL = this.addAASURL.bind(this);
@@ -13,24 +12,24 @@ class AASCookieHandler extends BaseCookieHandler {
       this.removeHost = this.removeHost.bind(this);
       this.hostExists = this.hostExists.bind(this);
       this.getAASMap = this.getAASMap.bind(this);
-      this.readAASMapFromCookie = this.readAASMapFromCookie.bind(this);
+      this.readAASMapFromStorage = this.readAASMapFromStorage.bind(this);
       this.writeAASMap = this.writeAASMap.bind(this);
 
-      this.aasCookieSet = "aasMap";
+      this.aasStorageSet = "aasMap";
       this.currentAAS = "currentAAS";
 
       this.aasMap = null;
    }
 
    setCurrentAAS(aasURL) {
-      this.updateCookie(this.currentAAS, aasURL, 100);
+      window.localStorage.setItem(this.currentAAS, aasURL);
       this.addAASURL(aasURL);
    }
 
    getCurrentAAS() {
-      var cookieData = this.getCookie(this.currentAAS);
-      if (cookieData)
-         return cookieData;
+      var storageData = window.localStorage.getItem(this.currentAAS);
+      if (storageData)
+         return storageData;
       return null;
    }
 
@@ -102,15 +101,15 @@ class AASCookieHandler extends BaseCookieHandler {
    getAASMap() {
       if (this.aasMap)
          return this.aasMap;
-      this.aasMap = this.readAASMapFromCookie();
+      this.aasMap = this.readAASMapFromStorage();
       return this.aasMap;
    }
 
-   readAASMapFromCookie() {
-      var cookieData = window.localStorage.getItem(this.aasCookieSet);
-      if (cookieData) {
+   readAASMapFromStorage() {
+      var storageData = window.localStorage.getItem(this.aasStorageSet);
+      if (storageData) {
          try {
-            var map = new Map(Object.entries(JSON.parse(cookieData)));
+            var map = new Map(Object.entries(JSON.parse(storageData)));
             for (var [key, value] of map)
                map.set(key, new Map(Object.entries(value)));
             return map;
@@ -126,7 +125,7 @@ class AASCookieHandler extends BaseCookieHandler {
       var map = new Map(this.aasMap);
       for (var [key, value] of map)
          map.set(key, Object.fromEntries(value));
-      window.localStorage.setItem(this.aasCookieSet,
+      window.localStorage.setItem(this.aasStorageSet,
          JSON.stringify(Object.fromEntries(map)));
    }
 }

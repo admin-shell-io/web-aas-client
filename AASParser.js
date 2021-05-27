@@ -35,17 +35,17 @@ class AASParser extends ParserBase {
    }
 
    run() {
-      var cookieHandler = new AASCookieHandler();
+      var aasStorageHandler = new AASWebStorageHandler();
 
       var shellURL = getQueryVariable("shell");
       if (shellURL) {
          shellURL = decodeURIComponent(shellURL);
          shellURL = this.trimSuffixSlash(shellURL);
-         cookieHandler.setCurrentAAS(shellURL);
+         aasStorageHandler.setCurrentAAS(shellURL);
       }
 
       // Set extra base URL
-      var aasURL = new URL(cookieHandler.getCurrentAAS());
+      var aasURL = new URL(aasStorageHandler.getCurrentAAS());
       this.AASRoot.tRootURL = this.trimSuffixSlash(aasURL.origin);
       this.AASRoot.tLocalRootURL = this.trimSuffixSlash(this.AASRoot.tRootURL);
       var split = aasURL.pathname.split("/");
@@ -54,7 +54,7 @@ class AASParser extends ParserBase {
       // Set extra browser URL
       this.AASRoot.tBrowserURL = window.location.origin
          + window.location.pathname;
-      this.AASRoot.tURL = cookieHandler.getCurrentAAS();
+      this.AASRoot.tURL = aasStorageHandler.getCurrentAAS();
 
       this.getByURL(this.AASRoot,
             this.AASRoot.tURL,

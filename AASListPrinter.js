@@ -20,7 +20,7 @@ class AASListPrinter extends PrinterHtmlElements {
       this.toggleElement = toggleElement;
       this.baseContainer = null;
 
-      this.aasCookieHandler = new AASCookieHandler();
+      this.aasStorageHandler = new AASWebStorageHandler();
 
       this.listBody = null;
 
@@ -107,7 +107,7 @@ class AASListPrinter extends PrinterHtmlElements {
    }
 
    printHostEntries(parentElement) {
-      var aasMap = this.aasCookieHandler.getAASMap();
+      var aasMap = this.aasStorageHandler.getAASMap();
       for (var [key, urlMap] of aasMap) {
          var node = this.printNode(parentElement, null, key, "Host", 
                                         this.colors.AASColor, false);
@@ -181,14 +181,14 @@ class AASListPrinter extends PrinterHtmlElements {
       var type = element.getAttribute("data-type");
       switch (type) {
       case "AASURL":
-         this.aasCookieHandler.removeAASURL(url);
-         if (!this.aasCookieHandler.hostExists(url)) {
+         this.aasStorageHandler.removeAASURL(url);
+         if (!this.aasStorageHandler.hostExists(url)) {
             elementId = target.target.getAttribute("data-html-parent-target");
             element = this.listBody.querySelector(elementId);
          }
          break;
       case "HostURL":
-         this.aasCookieHandler.removeHost(url);
+         this.aasStorageHandler.removeHost(url);
          break;
       default:
          return;
