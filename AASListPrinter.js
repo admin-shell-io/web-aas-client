@@ -12,21 +12,29 @@ class AASListPrinter extends PrinterHtmlElements {
       this.printBaseElements = this.printBaseElements.bind(this);
       this.printHeader = this.printHeader.bind(this);
       this.printBody = this.printBody.bind(this);
+      this.printDialogs = this.printDialogs.bind(this);
+      this.printListBodys = this.printListBodys.bind(this);
+      this.getHostEntriesByType = this.getHostEntriesByType.bind(this);
       this.printHostEntries = this.printHostEntries.bind(this);
       this.printURLEntry = this.printURLEntry.bind(this);
+      this.removeAASEntry = this.removeAASEntry.bind(this);
+      this.removeRegistryEntry = this.removeRegistryEntry.bind(this);
       this.removeEntry = this.removeEntry.bind(this);
 
       this.htmlParent = htmlParent;
       this.toggleElement = toggleElement;
       this.baseContainer = null;
+      this.modalBody = null;
+      this.listBodys = new Object();
 
-      this.aasStorageHandler = new AASWebStorageHandler();
-
-      this.listBody = null;
+      this.storageHandler = new AASWebStorageHandler();
 
       var pathname = window.location.pathname;
-      pathname = pathname.replace("registryBrowser.html", "aasBrowser.html");
-      this.tBrowserURL = window.location.origin + pathname;
+      pathname = pathname.substring(0, pathname.lastIndexOf('/') + 1);
+      this.tAASBrowserURL = window.location.origin + pathname
+         + "aasBrowser.html";
+      this.tRegistryBrowserURL = window.location.origin + pathname
+         + "registryBrowser.html";
 
       this.colors = new Object();
       this.colors.AASColor = "bg-lenzeblue";
@@ -43,10 +51,15 @@ class AASListPrinter extends PrinterHtmlElements {
       this.cleanModal(this.htmlParent);
       this.baseContainer = this.printBaseElements(this.htmlParent);
       this.printHeader(this.baseContainer);
-      this.listBody = this.printBody(this.baseContainer);
+      this.modalBody = this.printBody(this.baseContainer);
+      this.printDialogs(this.modalBody);
+      this.listBodys = this.printListBodys(this.modalBody, this.listBodys);
 
-      this.printHostEntries(this.listBody);
-
+      var aasEntries = this.getHostEntriesByType("AAS");
+      this.printHostEntries(this.listBodys.aasListBody, aasEntries, "AAS");
+      var registryEntries = this.getHostEntriesByType("Registry");
+      this.printHostEntries(this.listBodys.registryListBody, registryEntries,
+         "Registry");
 
       this.show(this.toggleElement);
    }
@@ -108,8 +121,32 @@ class AASListPrinter extends PrinterHtmlElements {
       return divBody;
    }
 
-   printHostEntries(parentElement) {
-      var aasMap = this.aasStorageHandler.getAASMap();
+   printDialogs(parentElement) {
+      var aasDialogCtn = this.printNode(parentElement, null, "",
+         "New AAS", "bg-white", false, "text-black", 3).container;
+      var registryDialogCtn =this.printNode(parentElement, null, "",
+         "New Registry", "bg-white", false, "text-black", 3).container;
+         
+      aasDialogCtn.appendChild(document.createTextNode("Placeholder"));
+      registryDialogCtn.appendChild(document.createTextNode("Placeholder"));
+   }
+
+   printListBodys(parentElement, listBodys) {
+      listBodys.aasListBody = this.printNode(parentElement, null, "",
+         "AAS List", "bg-white", false, "text-black", 3).container;
+      listBodys.registryListBody = this.printNode(parentElement, null, "",
+         "Registry List", "bg-white", false, "text-black", 3).container;
+      return listBodys;
+   }
+   
+   getHostEntriesByType(type) {
+      if (type == "AAS")
+         return this.storageHandler.getAASMap();
+      else
+         return this.storageHandler.getRegistryMap();
+   }
+
+   printHostEntries(parentElement, aasMap, type) {
       for (var [key, urlMap] of aasMap) {
          var node = this.printNode(parentElement, null, key, "Host", 
                                         this.colors.AASColor, false);
@@ -118,10 +155,16 @@ class AASListPrinter extends PrinterHtmlElements {
          img.classList.add("align-baseline");
          img.classList.add("float-right");
          img.setAttribute("data-html-target", "#" + node.contentRow.id);
-         img.onclick = this.removeEntry;
-         
+
          node.contentRow.setAttribute("data-target", key);
-         node.contentRow.setAttribute("data-type", "HostURL");
+         if (type == "AAS") {
+            img.onclick = this.removeAASEntry;
+            node.contentRow.setAttribute("data-type", "AASHostURL");
+         }
+         else {
+            img.onclick = this.removeRegistryEntry;
+            node.contentRow.setAttribute("data-type", "RegistryHostURL");
+         }
 
          //var a = this.createHTMLLink("#", img);
          //a.setAttribute("data-html-target", "#" + node.contentRow.id);
@@ -138,13 +181,19 @@ class AASListPrinter extends PrinterHtmlElements {
          node.title.contentRow.appendChild(div_img);
          
          for (var [key2, entry] of urlMap) {
-            this.printURLEntry(node.container, node.contentRow, entry, "URL");
+            this.printURLEntry(node.container, node.contentRow, entry, "URL", 
+               type);
          }
       }
    }
 
-   printURLEntry(HTMLElement, parentElement, url, valueName) {
-      var fullUrl = this.tBrowserURL + "?shell=" + encodeURIComponent(url);
+   printURLEntry(HTMLElement, parentElement, url, valueName, type) {
+      var browserURL = null;
+      if (type == "AAS")
+         browserURL = this.tAASBrowserURL;
+      else
+         browserURL = this.tRegistryBrowserURL;
+      var fullUrl = browserURL + "?shell=" + encodeURIComponent(url);
       var bodyElement = this.createHTMLLink(fullUrl, 
          document.createTextNode(url), "_blank");
 
@@ -168,29 +217,56 @@ class AASListPrinter extends PrinterHtmlElements {
       var row = this.createRowWithContent(HTMLElement, 
          Array("col-2", "col", "col-auto"), content, true);
          row.setAttribute("data-target", url);
-         row.setAttribute("data-type", "AASURL");
+         if (type == "AAS") {
+            img.onclick = this.removeAASEntry;
+            row.setAttribute("data-type", "AASURL");
+         }
+         else {
+            img.onclick = this.removeRegistryEntry;
+            row.setAttribute("data-type", "RegistryURL");
+         }
 
       img.setAttribute("data-html-target", "#" + row.id);
       img.setAttribute("data-html-parent-target", "#" + parentElement.id);
-
-      img.onclick = this.removeEntry;
    }
 
-   removeEntry(target) {
+   removeAASEntry(target) {
+      this.removeEntry(target, "AAS");
+   }
+
+   removeRegistryEntry(target) {
+      this.removeEntry(target, "Registry");
+   }
+
+   removeEntry(target, targetType) {
       var elementId = target.target.getAttribute("data-html-target");
-      var element = this.listBody.querySelector(elementId);
+      var element = null;
+      if (targetType == "AAS")
+         element = this.listBodys.aasListBody.querySelector(elementId);
+      else
+         element = this.listBodys.registryListBody.querySelector(elementId);
       var url = element.getAttribute("data-target");
       var type = element.getAttribute("data-type");
       switch (type) {
       case "AASURL":
-         this.aasStorageHandler.removeAASURL(url);
-         if (!this.aasStorageHandler.hostExists(url)) {
+         this.storageHandler.removeAASURL(url);
+         if (!this.storageHandler.AASHostExists(url)) {
             elementId = target.target.getAttribute("data-html-parent-target");
-            element = this.listBody.querySelector(elementId);
+            element = this.listBodys.aasListBody.querySelector(elementId);
          }
          break;
-      case "HostURL":
-         this.aasStorageHandler.removeHost(url);
+     case "RegistryURL":
+         this.storageHandler.removeRegistryURL(url);
+         if (!this.storageHandler.registryHostExists(url)) {
+            elementId = target.target.getAttribute("data-html-parent-target");
+            element = this.listBodys.registryListBody.querySelector(elementId);
+         }
+         break;
+      case "AASHostURL":
+         this.storageHandler.removeAASHost(url);
+         break;
+      case "RegistryHostURL":
+         this.storageHandler.removeRegistryHost(url);
          break;
       default:
          return;

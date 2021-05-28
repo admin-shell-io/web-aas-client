@@ -41,7 +41,7 @@ class RegistryParser extends ParserBase {
       if (regURL) {
          regURL = decodeURIComponent(regURL);
          regURL = this.trimSuffixSlash(regURL);
-         //this.aasStorageHandler.setCurrentAAS(shellURL);
+         this.aasStorageHandler.setCurrentRegistry(regURL);
       }
 
       // Set extra base URL

@@ -62,7 +62,7 @@ class PrinterHtmlElements extends Base {
    }
 
    insertBootstrapCardTitle(cardBody, containedElement, bgcolor, textcolor,
-         collapseTarget, expanded = true) {
+         collapseTarget, expanded = true, titlesize = 3) {
       var img = null;
       if (!expanded) {
          img = this.createImage("local_icons/Breeze/emblem-added.svg", "+", 22,
@@ -95,7 +95,7 @@ class PrinterHtmlElements extends Base {
       row.appendChild(div_img);
       row.appendChild(div_content);
 
-      var h = document.createElement("h3");
+      var h = document.createElement("h" + titlesize);
       h.classList.add("card-title");
       h.classList.add(bgcolor);
       h.classList.add(textcolor);
@@ -342,7 +342,8 @@ class PrinterHtmlElements extends Base {
       return div;
    }
 
-      printNode(HTMLElement, object, name, titlename, color, expanded = true) {
+      printNode(HTMLElement, object, name, titlename, bgColor,
+         expanded = true, textColor = "text-white", titlesize = 3) {
       var HTMLObject = this.prepareContainer(HTMLElement);
       var collapsable = this.insertBootstrapCardElement(HTMLObject.cardBody,
             HTMLObject.container, "bg-light", "text-black", expanded);
@@ -357,7 +358,7 @@ class PrinterHtmlElements extends Base {
 
       HTMLObject.title = this.insertBootstrapCardTitle(HTMLObject.cardBody,
             document.createTextNode(title),
-            color, "text-white", collapsable.id, expanded);
+            bgColor, textColor, collapsable.id, expanded, titlesize);
       return HTMLObject;
    }
 }
