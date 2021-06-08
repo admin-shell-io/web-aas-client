@@ -319,7 +319,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
             if (!this.isNull(browserURL) && !this.isNull(baseURL)) {
                var referenceURL = baseURL + "/" + encodeURIComponent(childObjs.value.tData) + "/"
                                    + "aas";
-               var completeURL = browserURL + "?shell=" + referenceURL;
+               var completeURL = browserURL + "?endpoint=" + referenceURL;
                dataElement = this.createHTMLLink(completeURL,
                      document.createTextNode(childObjs.value.tData));
             }

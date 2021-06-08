@@ -193,7 +193,7 @@ class AASListPrinter extends PrinterHtmlElements {
          browserURL = this.tAASBrowserURL;
       else
          browserURL = this.tRegistryBrowserURL;
-      var fullUrl = browserURL + "?shell=" + encodeURIComponent(url);
+      var fullUrl = browserURL + "?endpoint=" + encodeURIComponent(url);
       var bodyElement = this.createHTMLLink(fullUrl, 
          document.createTextNode(url), "_blank");
 

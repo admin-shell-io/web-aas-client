@@ -37,7 +37,7 @@ class RegistryParser extends ParserBase {
    }
 
    run() {
-      var regURL = getQueryVariable("registry");
+      var regURL = getQueryVariable("endpoint");
       if (regURL) {
          regURL = decodeURIComponent(regURL);
          regURL = this.trimSuffixSlash(regURL);

@@ -37,7 +37,7 @@ class AASParser extends ParserBase {
    run() {
       var aasStorageHandler = new AASWebStorageHandler();
 
-      var shellURL = getQueryVariable("shell");
+      var shellURL = getQueryVariable("endpoint");
       if (shellURL) {
          shellURL = decodeURIComponent(shellURL);
          shellURL = this.trimSuffixSlash(shellURL);
