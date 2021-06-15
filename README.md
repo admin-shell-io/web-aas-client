@@ -36,7 +36,7 @@ registryBrowser.html?endpoint=http://myRegistryServer/.../registstryEndpoint
 
 # Examples
 You can view the AAS on the AASX Server: 
-https://admin-shell-io.com:5001
+[https://admin-shell-io.com:5001](https://admin-shell-io.com:5001)
 
 To access the first AAS on that server with idShort Festo_3S7PM0CP4BD by web-aas-client please click:
-https://admin-shell-io.com/web-aas-client/aasBrowser.html?endpoint=https://admin-shell-io.com:51411/aas/Festo_3S7PM0CP4BD
+[https://admin-shell-io.com/web-aas-client/aasBrowser.html?endpoint=https://admin-shell-io.com:51411/aas/Festo_3S7PM0CP4BD](https://admin-shell-io.com/web-aas-client/aasBrowser.html?endpoint=https://admin-shell-io.com:51411/aas/Festo_3S7PM0CP4BD)
