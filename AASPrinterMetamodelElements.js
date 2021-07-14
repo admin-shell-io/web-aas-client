@@ -62,7 +62,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.callOperation = this.callOperation.bind(this);
       this.findChildElementUpward = this.findChildElementUpward.bind(this);
       this.findPropertyElementUpward = this.findPropertyElementUpward.bind(this);
-      this.findElement = this.findElement.bind(this);
+      this.findElementByHtmlId = this.findElementByHtmlId.bind(this);
       this.timedUpdateValues = this.timedUpdateValues.bind(this);
       /* variables */
       this.valueUpdateArray = new Array();
@@ -736,7 +736,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       var valueType = "string";
       var elementID = val.target.id;
       var value = val.target.getElementsByTagName("input")[0].value;
-      var element = this.findElement(elementID, this.treeRoot);
+      var element = this.findElementByHtmlId(elementID, this.treeRoot);
 
       if (element.parentObj.childObjs.hasOwnProperty("valueType"))
          valueType = element.parentObj.childObjs.valueType.tData;
@@ -750,7 +750,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
    // POST on /submodelElements/$name/invoke
    callOperation(val) {
       var elementID = val.target.id;
-      var element = this.findElement(elementID, this.treeRoot);
+      var element = this.findElementByHtmlId(elementID, this.treeRoot);
 
       //this.aasParser.AjaxHelper.postJSON(element.tURL,JSON.stringify(data),
       //      null, null, null);
@@ -778,7 +778,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       return null;
    }
 
-   findElement(name, root) {
+   findElementByHtmlId(name, root) {
       for(var key in root) {
          if (key == "parentObj" || key == "HTMLcontainer")
             continue;
@@ -787,7 +787,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
             return child;
          else {
             if (this.isObject(child)) {
-               var element = this.findElement(name, child);
+               var element = this.findElementByHtmlId(name, child);
                if (element != null)
                   return element;
             }
