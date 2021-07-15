@@ -486,6 +486,7 @@ class ParserBase extends Base {
       hints.noPrint = true;
       var subObj = this.newTreeObject(name, obj, "OperationVariable");
       subObj.tHints = hints;
+      subObj.tOriginalJSON = JSON;
 
       // value [SubmodelElement]
       if (this.elementExists(JSON, "value"))
@@ -1077,6 +1078,7 @@ class ParserBase extends Base {
       obj.tType = type;
       obj.tHints = new Object();
       obj.tData = new Object();
+      obj.tName = name;
       if (this.isObject(parentObj))
          parentObj.childObjs[name] = obj;
       return obj;
