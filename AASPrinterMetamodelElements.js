@@ -63,6 +63,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.findChildElementUpward = this.findChildElementUpward.bind(this);
       this.findPropertyElementUpward = this.findPropertyElementUpward.bind(this);
       this.findElementByHtmlId = this.findElementByHtmlId.bind(this);
+      this.findElementsByType = this.findElementsByType.bind(this);
       this.timedUpdateValues = this.timedUpdateValues.bind(this);
       /* variables */
       this.valueUpdateArray = new Array();
@@ -749,13 +750,56 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
    // POST on /submodelElements/$name/invoke
    callOperation(val) {
+
+      var outputJSON = new Object();
+      outputJSON.timeout = 10;
+      outputJSON.requestId = "";
+      outputJSON.inputArguments = new Array();
+      outputJSON.inoutputArguments = new Array();
+
       var elementID = val.target.id;
-      var element = this.findElementByHtmlId(elementID, this.treeRoot);
+      var operationElement = this.findElementByHtmlId(elementID, this.treeRoot);
 
-      //this.aasParser.AjaxHelper.postJSON(element.tURL,JSON.stringify(data),
-      //      null, null, null);
+      //console.log("Operation called with: ", operationElement.tURLInvoke,
+      //   operationElement, val);
 
-      console.log("TODO: Operation called with: ", element.tURLInvoke, elementID, val);
+      var var_array = this.findElementsByType("OperationVariable", operationElement);
+      var i = 0;
+      // filter output only Variables
+      while (i < var_array.length) {
+         var element = var_array[i];
+         if (element.parentObj.tName == "outputVariable") {
+            var_array.splice(i, 1);
+            i--;
+         }
+         i++;
+      }
+
+      for (var valName in var_array) {
+         var varElement = var_array[valName];
+         if (this.elementExists(varElement.childObjs, "value")) {
+            var valueObj = varElement.childObjs.value;
+            switch (valueObj.tType) {
+            case "Property":
+               var value = valueObj.childObjs.value.HTMLcontainer.value;
+               var valJSON = varElement.tOriginalJSON;
+               valJSON.value.value = this.convertToJSON(value,
+                  valueObj.childObjs.valueType.childObjs.dataObjectType.tData);
+               if (varElement.parentObj.tName == "inputArguments" ||
+                   varElement.parentObj.tName == "inputVariable")
+                   outputJSON.inputArguments.push(valJSON);
+               if (varElement.parentObj.tName == "inoutputArguments" ||
+                   varElement.parentObj.tName == "inoutputVariable")
+                   outputJSON.inoutputArguments.push(valJSON);
+               break;
+            default:
+               break;
+            }
+         }
+      }
+
+      this.aasParser.AjaxHelper.postJSON(operationElement.tURLInvoke,
+         JSON.stringify(outputJSON), null, null, null);
    }
 
    findChildElementUpward(object, name) {
@@ -794,6 +838,26 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
          }
       }
       return null;
+   }
+
+   findElementsByType(type, rootElement, parentType = null, parentName = null) {
+      var result = new Array();
+      if (!this.isObject(rootElement) ||
+         !rootElement.hasOwnProperty("childObjs"))
+         return;
+      var childs = rootElement.childObjs;
+      for (var key in childs) {
+         var child = childs[key];
+         if (this.isObject(child)) {
+            if (child.hasOwnProperty("tType") && child.tType == type &&
+                (parentType == null || child.parentObj.tType == parentType))
+               result.push(child);
+            var arr_tmp = this.findElementsByType(type, child);
+            if (arr_tmp.length > 0)
+               result.push.apply(result, arr_tmp);
+         }
+      }
+      return result;
    }
 
    timedUpdateValues() {
