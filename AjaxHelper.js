@@ -36,10 +36,11 @@ class AjaxHelper {
          url: URL,
          type: 'PUT',
          beforeSend: function(xhr) {
+            xhr.setRequestHeader("Content-Type", "application/json");
             if (xhr.overrideMimeType) {
                xhr.overrideMimeType("application/json");
             }},
-            dataType: 'json',
+            dataType: 'application/json',
             crossDomain: true,
             success: callback_success,
             error: callback_error,
@@ -58,10 +59,11 @@ class AjaxHelper {
          url: URL,
          type: 'POST',
          beforeSend: function(xhr) {
+            xhr.setRequestHeader("Content-Type", "application/json");
             if (xhr.overrideMimeType) {
                xhr.overrideMimeType("application/json");
             }},
-            dataType: 'json',
+            dataType: 'application/json',
             crossDomain: true,
             success: callback_success,
             error: callback_error,
