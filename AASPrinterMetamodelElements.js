@@ -824,7 +824,9 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
    findElementByHtmlId(name, root) {
       for(var key in root) {
-         if (key == "parentObj" || key == "HTMLcontainer")
+         if (key == "parentObj" ||
+             key == "HTMLcontainer" ||
+             !this.isObject(root[key]))
             continue;
          var child = root[key];
          if (child.hasOwnProperty("tHTMLID") && (child.tHTMLID == name))
