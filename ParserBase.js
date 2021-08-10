@@ -1102,7 +1102,11 @@ class ParserBase extends Base {
       return;
    }
 
-   newTreeObject(name, parentObj, type) {
+   newTreeObject(name, parentObj, type, overwrite = false) {
+      if (!overwrite && this.isObject(parentObj) &&
+          this.elementExists(parentObj.childObjs, name))
+         return parentObj.childObjs[name];
+
       var obj = new Object();
       obj.parentObj = parentObj;
       obj.childObjs = new Object();
