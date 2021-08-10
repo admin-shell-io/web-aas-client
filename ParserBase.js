@@ -682,6 +682,8 @@ class ParserBase extends Base {
       var valueObj = this.newTreeObject(name, obj, tType);
       this.setURL(valueObj, name);
       valueObj.tData = JSON;
+      if (valueObj.tUpdateMethod)
+         valueObj.tUpdateMethod(valueObj);
    }
 
    parseSecurity(JSON, name, obj) {
@@ -1114,6 +1116,7 @@ class ParserBase extends Base {
       obj.tHints = new Object();
       obj.tData = new Object();
       obj.tName = name;
+      obj.tUpdateMethod = null;
       if (this.isObject(parentObj))
          parentObj.childObjs[name] = obj;
       return obj;
