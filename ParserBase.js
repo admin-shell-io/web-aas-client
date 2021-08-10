@@ -442,6 +442,17 @@ class ParserBase extends Base {
                hints,
                "inputVariables");
       }
+      if (this.elementExists(JSON, "inputArguments")) {
+         var hints = new Object();
+         hints.noPrint = false;
+         hints.writable = true;
+         this.parseArray(JSON.inputArguments,
+               "inputVariable",
+               obj,
+               this.parseOperationVariable,
+               hints,
+               "inputArguments");
+      }
       if (this.elementExists(JSON, "inoutputVariable")) {
          var hints = new Object();
          hints.noPrint = false;
@@ -461,6 +472,16 @@ class ParserBase extends Base {
                hints,
                "inoutputVariables");
       }
+      if (this.elementExists(JSON, "inoutputArguments")) {
+         var hints = new Object();
+         hints.noPrint = false;
+         this.parseArray(JSON.inoutputArguments,
+               "inoutputVariable",
+               obj,
+               this.parseOperationVariable,
+               hints,
+               "inoutputArguments");
+      }
       if (this.elementExists(JSON, "outputVariable")) {
          var hints = new Object();
          this.parseArray(JSON.outputVariable,
@@ -478,6 +499,16 @@ class ParserBase extends Base {
                this.parseOperationVariable,
                hints,
                "outputVariables");
+      }
+      if (this.elementExists(JSON, "outputArguments")) {
+         var hints = new Object();
+         hints.noPrint = false;
+         this.parseArray(JSON.outputArguments,
+               "outputVariable",
+               obj,
+               this.parseOperationVariable,
+               hints,
+               "outputArguments");
       }
    }
 
