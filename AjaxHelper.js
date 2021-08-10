@@ -40,7 +40,7 @@ class AjaxHelper {
             if (xhr.overrideMimeType) {
                xhr.overrideMimeType("application/json");
             }},
-            dataType: 'application/json',
+            dataType: 'json',
             crossDomain: true,
             success: callback_success,
             error: callback_error,
@@ -63,7 +63,7 @@ class AjaxHelper {
             if (xhr.overrideMimeType) {
                xhr.overrideMimeType("application/json");
             }},
-            dataType: 'application/json',
+            dataType: 'json',
             crossDomain: true,
             success: callback_success,
             error: callback_error,
