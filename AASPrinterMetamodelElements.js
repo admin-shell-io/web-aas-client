@@ -65,6 +65,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.findElementByHtmlId = this.findElementByHtmlId.bind(this);
       this.findElementsByType = this.findElementsByType.bind(this);
       this.timedUpdateValues = this.timedUpdateValues.bind(this);
+      this.updateValue = this.updateValue.bind(this);
       /* variables */
       this.valueUpdateArray = new Array();
 
@@ -649,6 +650,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
          bodyElement,
          ];
       this.createRowWithContent(HTMLElement, 2, content, true);
+      object.tUpdateMethod = this.updateValue;
    }
 
    printRegistry(HTMLElement, object) {
@@ -750,7 +752,6 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
    // POST on /submodelElements/$name/invoke
    callOperation(val) {
-
       var outputJSON = new Object();
       outputJSON.timeout = 10;
       outputJSON.requestId = "";
@@ -798,9 +799,21 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
          }
       }
 
+      var ctxObj = new Object();
+      ctxObj.context = operationElement;
+      ctxObj.printer = this;
+
       this.aasParser.AjaxHelper.postJSON(operationElement.tURLInvoke,
-         JSON.stringify(outputJSON), null, null, null);
+         JSON.stringify(outputJSON), this.operationResult, null, ctxObj);
    }
+
+   // unbound for this -> context
+   operationResult(ret) {
+      var context = this.context;
+      var printer = this.printer;
+
+      printer.aasParser.parseOperation(ret, context.tName, context);
+}
 
    findChildElementUpward(object, name) {
       if (this.elementExists(object.childObjs, name))
@@ -870,16 +883,24 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
          transObj.printer = this;
          this.aasParser.getByURL(transObj,
                values[key].tURL,
-               this.updateValue,
+               this.valueResult,
                null);
       }
    }
 
+   updateValue(obj) {
+      if (!this.elementExists(obj, "HTMLcontainer"))
+         return;
+      obj.HTMLcontainer.value = obj.tData;
+   }
+
    // unbound for this -> context
-   updateValue(ret) {
+   valueResult(ret) {
+
       var value = null;
       var context = this.object.context;
       var printer = this.object.printer;
+
       // new Basyx
       if (!printer.isObject(ret))
          value = ret;
