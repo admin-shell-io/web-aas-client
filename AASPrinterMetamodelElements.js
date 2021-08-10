@@ -896,26 +896,8 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
    // unbound for this -> context
    valueResult(ret) {
-
-      var value = null;
       var context = this.object.context;
       var printer = this.object.printer;
-
-      // new Basyx
-      if (!printer.isObject(ret))
-         value = ret;
-      // old Basyx && AASX Package explorer
-      else {
-         // very old Basyx, remove me?
-         if (printer.elementExists(ret, "entity")) {
-            ret = ret.entity;
-         }
-         value = ret.value;
-      }
-      context.data = value;
-      if (!printer.isObject(value)) {
-         if (document.activeElement != context.HTMLcontainer)
-            context.HTMLcontainer.value = value;
-      }
+      printer.aasParser.parseValue(ret, context.tName, context.parentObj);
    }
 }
