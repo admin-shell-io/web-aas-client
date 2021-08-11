@@ -119,7 +119,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
    printError(object, name) {
       // We can only print Errors on the most upper level for now
-      console.log("Fixme: Add HTMLContainer to object-tree and print error in its domain");
+      console.log("Fixme: Add tHTMLContainer to object-tree and print error in its domain");
       var HTMLObject = this.printNode(this.rootElement, object, name,
             "Error", this.colors.errorColor, true);
 
@@ -605,7 +605,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
          bodyElement = this.createBootstrapContainerFluid();
          bodyElement.classList.add("pl-0");
-         object.HTMLcontainer = this.createSingleElementForm(bodyElement,
+         object.tHTMLContainer = this.createSingleElementForm(bodyElement,
                idData, object.tData, object, this.submitValue);
          if (!update &&
              object.parentObj.parentObj.tType != "OperationVariable")
@@ -620,8 +620,8 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
          bodyElement.appendChild(output);
 
-         object.HTMLcontainer = bodyElement;
-         object.tHTMLID = object.HTMLcontainer.id;
+         object.tHTMLContainer = bodyElement;
+         object.tHTMLID = object.tHTMLContainer.id;
          break;
       }
       return bodyElement;
@@ -782,7 +782,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
             var valueObj = varElement.childObjs.value;
             switch (valueObj.tType) {
             case "Property":
-               var value = valueObj.childObjs.value.HTMLcontainer.value;
+               var value = valueObj.childObjs.value.tHTMLContainer.value;
                var valJSON = varElement.tOriginalJSON;
                valJSON.value.value = this.convertToJSON(value,
                   valueObj.childObjs.valueType.childObjs.dataObjectType.tData);
@@ -838,7 +838,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
    findElementByHtmlId(name, root) {
       for(var key in root) {
          if (key == "parentObj" ||
-             key == "HTMLcontainer" ||
+             key == "tHTMLContainer" ||
              !this.isObject(root[key]))
             continue;
          var child = root[key];
@@ -889,9 +889,9 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
    }
 
    updateValue(obj) {
-      if (!this.elementExists(obj, "HTMLcontainer"))
+      if (!this.elementExists(obj, "tHTMLContainer"))
          return;
-      obj.HTMLcontainer.value = obj.tData;
+      obj.tHTMLContainer.value = obj.tData;
    }
 
    // unbound for this -> context
