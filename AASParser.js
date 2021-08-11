@@ -46,15 +46,7 @@ class AASParser extends ParserBase {
 
       // Set extra base URL
       var aasURL = new URL(aasStorageHandler.getCurrentAAS());
-      this.AASRoot.tRootURL = this.trimSuffixSlash(aasURL.origin);
-      this.AASRoot.tLocalRootURL = this.trimSuffixSlash(this.AASRoot.tRootURL);
-      var temp_path = aasURL.pathname + aasURL.hash;
-      var split = temp_path.split("/");
-      for (var i = 1; i < split.length - 2; i++)
-         this.AASRoot.tLocalRootURL += "/" + split[i];
-      // Set extra browser URL
-      this.AASRoot.tBrowserURL = window.location.origin
-         + window.location.pathname;
+      this.setRootURLS(this.AASRoot, aasURL, 2);
       this.AASRoot.tURL = aasStorageHandler.getCurrentAAS();
 
       this.getByURL(this.AASRoot,

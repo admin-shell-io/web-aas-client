@@ -66,6 +66,7 @@ class ParserBase extends Base {
       this.copyParentURL = this.copyParentURL.bind(this);
       this.setURLsOperation = this.setURLsOperation.bind(this);
       this.fixSubmodelURL = this.fixSubmodelURL.bind(this);
+      this.setRootURLS = this.setRootURLS.bind(this);
    }
 
    parseAAS(JSON, object, fetchSubmodels = false, submodelsCallback = null,
@@ -1190,5 +1191,17 @@ class ParserBase extends Base {
          submodel.tURL = submodel.tURL.substr(0, submodel.tURL.length - l - 1)
             + "/submodel";
       }
+   }
+
+   setRootURLS(rootElement, URL, removePathElementsCount) {
+      rootElement.tRootURL = this.trimSuffixSlash(URL.origin);
+      rootElement.tLocalRootURL = rootElement.tRootURL;
+      var temp_path = URL.pathname + URL.hash;
+      var split = temp_path.split("/");
+      for (var i = 1; i < split.length - removePathElementsCount; i++)
+         rootElement.tLocalRootURL += "/" + split[i];
+      // Set extra browser URL
+      rootElement.tBrowserURL = window.location.origin +
+                                window.location.pathname;
    }
 }

@@ -46,15 +46,7 @@ class RegistryParser extends ParserBase {
 
       // Set extra base URL
       var registryURL = new URL(regURL); /*new URL(this.aasStorageHandler.getCurrentRegistry());*/
-      this.RegistryRoot.tRootURL = this.trimSuffixSlash(registryURL.origin);
-      this.RegistryRoot.tLocalRootURL = this.trimSuffixSlash(this.RegistryRoot.tRootURL);
-      var temp_path = registryURL.pathname + registryURL.hash;
-      var split = temp_path.split("/");
-      for (var i = 1; i < split.length - 2; i++)
-         this.RegistryRoot.tLocalRootURL += "/" + split[i];
-      // Set extra browser URL
-      this.RegistryRoot.tBrowserURL = window.location.origin
-         + window.location.pathname;
+      this.setRootURLS(this.RegistryRoot, registryURL, 2);
       this.RegistryRoot.tURL = registryURL.href;/*this.aasStorageHandler.getCurrentRegistry()*/;
 
       this.getByURL(this.RegistryRoot,
