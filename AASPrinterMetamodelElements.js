@@ -891,7 +891,9 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
    updateValue(obj) {
       if (!this.elementExists(obj, "tHTMLContainer"))
          return;
-      obj.tHTMLContainer.value = obj.tData;
+      // TODO: Save for later?
+      if (document.activeElement != obj.tHTMLContainer)
+         obj.tHTMLContainer.value = obj.tData;
    }
 
    // unbound for this -> context
