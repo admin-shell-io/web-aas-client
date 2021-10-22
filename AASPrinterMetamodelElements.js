@@ -605,8 +605,12 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
          bodyElement = this.createBootstrapContainerFluid();
          bodyElement.classList.add("pl-0");
-         object.tHTMLContainer = this.createSingleElementForm(bodyElement,
-               idData, object.tData, object, this.submitValue);
+         if (object.parentObj.parentObj.tType != "OperationVariable")
+            object.tHTMLContainer = this.createSingleElementForm(bodyElement,
+                  idData, object.tData, object, this.submitValue);
+         else
+            object.tHTMLContainer = this.createSingleElementInput(bodyElement,
+                  idData, object.tData, object);
          if (!update &&
              object.parentObj.parentObj.tType != "OperationVariable")
             this.valueUpdateArray.push(object);

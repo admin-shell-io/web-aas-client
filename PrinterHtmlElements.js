@@ -25,6 +25,7 @@ class PrinterHtmlElements extends Base {
          this.insertBootstrapCardElement.bind(this);
       this.prepareContainer = this.prepareContainer.bind(this);
       this.createEmptyForm = this.createEmptyForm.bind(this);
+      this.createSingleElementInput = this.createSingleElementInput.bind(this);
       this.createSingleElementForm = this.createSingleElementForm.bind(this);
       this.createMultiElementForm = this.createMultiElementForm.bind(this);
       // this.createInputDiv = this.createInputDiv.bind(this);
@@ -187,6 +188,12 @@ class PrinterHtmlElements extends Base {
       form.id = "form-" + this.idAddition + "-" + this.IDCounter;
       this.IDCounter++;
       return form;
+   }
+
+   createSingleElementInput(HTMLElement, elementname, elementdata, element) {
+      var input = this.createInputField(elementdata, elementdata);
+      HTMLElement.appendChild(input);
+      return input;
    }
 
    createSingleElementForm(HTMLElement, elementname, elementdata, element,
