@@ -10,6 +10,7 @@ class PrinterHtmlElements extends Base {
       this.rootElement = rootElement;
       this.AjaxHelper = new AjaxHelper();
 
+      this.createBootstrapColCard = this.createBootstrapColCard.bind(this);
       this.createBootstrapCard = this.createBootstrapCard.bind(this);
       this.createBootstrapCardBody = this.createBootstrapCardBody.bind(this);
       this.insertBootstrapCardTitle = this.insertBootstrapCardTitle.bind(this);
@@ -35,6 +36,12 @@ class PrinterHtmlElements extends Base {
       /* variables */
       this.IDCounter = 0;
       this.idAddition = Math.random().toString(36).substr(2, 5);
+   }
+
+   createBootstrapColCard(margin = 0, padding = 0, extraClasses = null) {
+      var card = this.createBootstrapCard(margin, padding, extraClasses);
+      card.classList.add("col");
+      return card;
    }
 
    createBootstrapCard(margin = 0, padding = 0, extraClasses = null) {
@@ -156,19 +163,17 @@ class PrinterHtmlElements extends Base {
 
    prepareContainer(HTMLElement) {
       var row = this.createBootstrapContainerRow(Array("pl-3"));
-      var column = this.createBootstrapContainerCol("col", "p-0");
-      var card = this.createBootstrapCard(1, 0);
+      var card = this.createBootstrapColCard(1, 0);
       var cardBody = this.createBootstrapCardBody(0, 0);
       var container = this.createBootstrapContainerFluid();
 
       card.appendChild(cardBody);
-      column.appendChild(card);
-      row.appendChild(column);
+      row.appendChild(card);
       HTMLElement.appendChild(row);
 
       var obj = new Object();
       obj.card = card;
-      obj.column = column;
+      obj.column = card;
       obj.cardBody = cardBody;
       obj.container = container;
       obj.contentRow = row;
@@ -279,13 +284,11 @@ class PrinterHtmlElements extends Base {
    createRowWithContent(parent, colwidth, content, attachToParent = false, flat = false) {
       var row = this.createBootstrapContainerRow(Array("pl-3"));
       if (!flat) {
-         var column = this.createBootstrapContainerCol("col", "p-0");
-         var card = this.createBootstrapCard(0, 0, Array("ml-1", "mr-1", "mb-0"));
+         var card = this.createBootstrapColCard(0, 0, Array("ml-1", "mr-1", "mb-0"));
          var cardBody = this.createBootstrapCardBody(0, 0, true);
 
          card.appendChild(cardBody);
-         column.appendChild(card);
-         row.appendChild(column);
+         row.appendChild(card);
       }
 
       if (!Array.isArray(colwidth)) {
