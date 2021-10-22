@@ -91,7 +91,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.treeRoot = object;
       var childObjs = object.childObjs;
 
-      var card = this.createBootstrapColCard(0, 0);
+      var card = this.createBootstrapColCard(Array("p-0"));
       var cardBody = this.createBootstrapCardBody(0, 1);
       var container = this.aasContainer;
 
@@ -657,7 +657,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.treeRoot = object;
       var childObjs = object.childObjs;
 
-      var card = this.createBootstrapColCard(0, 0);
+      var card = this.createBootstrapColCard(Array("p-0"));
       var cardBody = this.createBootstrapCardBody(0, 1);
       var container = this.aasContainer;
 

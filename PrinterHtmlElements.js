@@ -38,17 +38,15 @@ class PrinterHtmlElements extends Base {
       this.idAddition = Math.random().toString(36).substr(2, 5);
    }
 
-   createBootstrapColCard(margin = 0, padding = 0, extraClasses = null) {
-      var card = this.createBootstrapCard(margin, padding, extraClasses);
+   createBootstrapColCard(extraClasses = null) {
+      var card = this.createBootstrapCard(extraClasses);
       card.classList.add("col");
       return card;
    }
 
-   createBootstrapCard(margin = 0, padding = 0, extraClasses = null) {
+   createBootstrapCard(extraClasses = null) {
       var card = document.createElement("div");
       card.classList.add("card");
-      card.classList.add('p-' + padding);
-      card.classList.add('m-' + margin);
       card.classList.add('shadow');
       card.classList.add('rounded-0');
       card.classList.add('border-0');
@@ -64,7 +62,6 @@ class PrinterHtmlElements extends Base {
                cardBody.classList.add("row");
       cardBody.classList.add('p-' + padding);
       cardBody.classList.add('m-' + margin);
-      cardBody.classList.add('shadow');
       cardBody.id = "cardBody-" + this.idAddition + "-" + this.IDCounter;
       this.IDCounter++;
       return cardBody;
@@ -110,9 +107,9 @@ class PrinterHtmlElements extends Base {
       h.classList.add(textcolor);
       h.classList.add("m-0");
       h.classList.add("px-1");
-      h.setAttribute("data-target", "#" + collapseTarget);
-      h.setAttribute("data-toggle" , "collapse");
-      h.setAttribute("aria-controls", collapseTarget);
+      h.setAttribute("aria-expanded", "false");
+      h.setAttribute("data-bs-toggle" , "collapse");
+      h.setAttribute("data-bs-target", "#" + collapseTarget);
       h.setid = "header-" + this.idAddition + "-" + this.IDCounter;
       this.IDCounter++;
 
@@ -151,7 +148,7 @@ class PrinterHtmlElements extends Base {
       p.classList.add("collapse");
       if (expanded)
          p.classList.add("show");
-
+      p.classList.add("ms-2");
       p.classList.add(bgcolor);
       p.classList.add(textcolor);
       p.id = "cardText-" + this.idAddition + "-" + this.IDCounter;
@@ -162,8 +159,8 @@ class PrinterHtmlElements extends Base {
    }
 
    prepareContainer(HTMLElement) {
-      var row = this.createBootstrapContainerRow(Array("pl-3"));
-      var card = this.createBootstrapColCard(1, 0);
+      var row = this.createBootstrapContainerRow();
+      var card = this.createBootstrapColCard(Array("p-0", "my-1"));
       var cardBody = this.createBootstrapCardBody(0, 0);
       var container = this.createBootstrapContainerFluid();
 
@@ -282,9 +279,9 @@ class PrinterHtmlElements extends Base {
    }
 
    createRowWithContent(parent, colwidth, content, attachToParent = false, flat = false) {
-      var row = this.createBootstrapContainerRow(Array("pl-3"));
+      var row = this.createBootstrapContainerRow();
       if (!flat) {
-         var card = this.createBootstrapColCard(0, 0, Array("ml-1", "mr-1", "mb-0"));
+         var card = this.createBootstrapColCard(Array("p-0"));
          var cardBody = this.createBootstrapCardBody(0, 0, true);
 
          card.appendChild(cardBody);
@@ -319,6 +316,7 @@ class PrinterHtmlElements extends Base {
    createBootstrapContainerFluid() {
       var div = document.createElement("div");
       div.classList.add("container-fluid");
+      div.classList.add("p-0");
       return div;
    }
 
@@ -327,7 +325,7 @@ class PrinterHtmlElements extends Base {
       div.id = "row-" + this.idAddition + "-" + this.IDCounter;
       this.IDCounter++;
       div.classList.add("row");
-      //div.classList.add("pl-3");
+      div.classList.add("m-0");
       if (this.isArray(extraClasses))
          extraClasses.forEach(element => div.classList.add(element));
       return div;
@@ -339,7 +337,6 @@ class PrinterHtmlElements extends Base {
       div.classList.add(coltype);
       div.classList.add(padding);
       if (!this.isNull(border)) {
-         //div.classList.add("border-top");
          div.classList.add("border-bottom");
       }
       return div;
