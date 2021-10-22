@@ -180,6 +180,8 @@ class PrinterHtmlElements extends Base {
    createEmptyForm(submitMethod) {
       var form = document.createElement("form");
       form.classList.add("form-inline");
+      form.classList.add("row");
+      form.classList.add("m-0");
       form.addEventListener('submit', submitMethod);
       form.action ="javascript:function empty(){};";
       form.id = "form-" + this.idAddition + "-" + this.IDCounter;
@@ -194,7 +196,7 @@ class PrinterHtmlElements extends Base {
       var divGroup = this.createBootstrapContainerFluid();
       divGroup.classList.add("form-group");
       divGroup.classList.add("col-11");
-      divGroup.classList.add("pl-0");
+      divGroup.classList.add("pe-1");
 
       form.appendChild(divGroup);
 
