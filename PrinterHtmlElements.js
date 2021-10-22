@@ -50,9 +50,11 @@ class PrinterHtmlElements extends Base {
       return card;
    }
 
-   createBootstrapCardBody(margin = 0, padding = 0) {
+   createBootstrapCardBody(margin = 0, padding = 0, isRow = false) {
       var cardBody = document.createElement("div");
       cardBody.classList.add("card-body");
+      if (isRow)
+               cardBody.classList.add("row");
       cardBody.classList.add('p-' + padding);
       cardBody.classList.add('m-' + margin);
       cardBody.classList.add('shadow');
@@ -279,10 +281,8 @@ class PrinterHtmlElements extends Base {
       if (!flat) {
          var column = this.createBootstrapContainerCol("col", "p-0");
          var card = this.createBootstrapCard(0, 0, Array("ml-1", "mr-1", "mb-0"));
-         var cardBody = this.createBootstrapCardBody(0, 0);
-         var container = this.createBootstrapContainerRow(Array("ml-1", "mr-1"));
+         var cardBody = this.createBootstrapCardBody(0, 0, true);
 
-         cardBody.appendChild(container);
          card.appendChild(cardBody);
          column.appendChild(card);
          row.appendChild(column);
@@ -304,7 +304,7 @@ class PrinterHtmlElements extends Base {
          element.appendChild(content[i]);
 
          if (!flat)
-            container.appendChild(element);
+            cardBody.appendChild(element);
          else
             row.appendChild(element);
       }
