@@ -42,6 +42,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.printFormula = this.printFormula.bind(this);
       this.printOperation = this.printOperation.bind(this);
       this.printOperationVariable = this.printOperationVariable.bind(this);
+      this.printCapability = this.printCapability.bind(this);
       this.printDataType = this.printDataType.bind(this);
       this.createValueElement = this.createValueElement.bind(this);
       this.getCategoryByObject = this.getCategoryByObject.bind(this);
@@ -237,6 +238,9 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
             break;
          case "OperationVariable":
             this.printOperationVariable(HTMLElement, element, key);
+            break;
+         case "Capability":
+            this.printCapability(HTMLElement, element, key);
             break;
          case "AssetAdministrationShell":
          case "Submodel":
@@ -566,6 +570,14 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       }
       else
          this.print(HTMLElement, object);
+   }
+
+   printCapability(HTMLElement, object, name) {
+      var childObjs = object.childObjs;
+      var HTMLObject = this.printNode(HTMLElement, object,
+           childObjs.idShort.tData, "Capability",
+           this.colors.submodelElementColor, false);
+      this.print(HTMLObject.container, object);
    }
 
    printDataType(HTMLElement, object, name) {

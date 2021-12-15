@@ -552,7 +552,9 @@ class ParserBase extends Base {
    }
 
    parseCapability(JSON, name, obj) {
-      console.log("TODO: Capability");
+      // Nothing TODO, all Capability Attributes are parsed already
+      this.setTreeObjectType(obj, "Capability");
+      return;
    }
 
    parseDataElement(JSON, name, obj) {
