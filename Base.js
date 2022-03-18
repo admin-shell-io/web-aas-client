@@ -59,7 +59,7 @@ class Base {
       case "double":
       case "Float":
       case "float":
-         var parsed = parseFloat(data);
+         var parsed = parseFloat(data).toFixed(1);
          if (isNaN(parsed))
             return 0;
          return parsed;
