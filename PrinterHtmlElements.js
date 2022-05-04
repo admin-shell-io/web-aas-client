@@ -34,9 +34,20 @@ class PrinterHtmlElements extends Base {
       this.createHTMLLink = this.createHTMLLink.bind(this);
       this.createImage = this.createImage.bind(this);
       this.printNode = this.printNode.bind(this);
+
+      this.setBrowserURLS = this.setBrowserURLS.bind(this);
       /* variables */
       this.IDCounter = 0;
       this.idAddition = Math.random().toString(36).substr(2, 5);
+
+      this.setBrowserURLS();
+   }
+
+   setBrowserURLS() {
+      var tempURL = window.location.origin + window.location.pathname;
+      tempURL = tempURL.substring(0, tempURL.lastIndexOf("/") + 1);
+      this.tAASBrowserURL = tempURL + "aasBrowser.html";
+      this.tRegistryBrowserURL = tempURL + "registryBrowser.html";
    }
 
    createBootstrapColCard(extraClasses = null) {

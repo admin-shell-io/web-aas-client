@@ -1202,8 +1202,5 @@ class ParserBase extends Base {
       var split = temp_path.split("/");
       for (var i = 1; i < split.length - removePathElementsCount; i++)
          rootElement.tLocalRootURL += "/" + split[i];
-      // Set extra browser URL
-      rootElement.tBrowserURL = window.location.origin +
-                                window.location.pathname;
    }
 }

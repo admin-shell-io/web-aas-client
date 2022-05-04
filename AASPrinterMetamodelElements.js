@@ -67,6 +67,8 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.findElementsByType = this.findElementsByType.bind(this);
       this.timedUpdateValues = this.timedUpdateValues.bind(this);
       this.updateValue = this.updateValue.bind(this);
+      this.addBrowserURL = this.addBrowserURL.bind(this);
+      this.makeURLFromAASID = this.makeURLFromAASID.bind(this);
       /* variables */
       this.valueUpdateArray = new Array();
 
@@ -318,17 +320,10 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
       if (childObjs.type.tData == "AssetAdministrationShell") {
          if (childObjs.local.tData) {
-            var browserURL =
-            this.findPropertyElementUpward(object, "tBrowserURL");
-            var baseURL =
-            this.findPropertyElementUpward(object, "tLocalRootURL");
-            if (!this.isNull(browserURL) && !this.isNull(baseURL)) {
-               var referenceURL = baseURL + "/" + encodeURIComponent(childObjs.value.tData) + "/"
-                                   + "aas";
-               var completeURL = browserURL + "?endpoint=" + referenceURL;
-               dataElement = this.createHTMLLink(completeURL,
-                     document.createTextNode(childObjs.value.tData));
-            }
+            var url = this.makeURLFromAASID(object, childObjs.value.tData);
+            var completeURL = this.addBrowserURL(object, url);
+            dataElement = this.createHTMLLink(completeURL,
+                  document.createTextNode(childObjs.value.tData));
          }
          // handle non-local references here!
          console.log("Non-local reference as URL");
@@ -601,9 +596,14 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
          console.log("Unhandled category found: " + category);
       case "DEFAULT":
       case "CONSTANT":
-            if (this.isLink(object))
-               bodyElement = this.createHTMLLink(object.tData,
+            if (this.isLink(object)) {
+               var URL = object.tData;
+               if (object.parentObj.tType = "Endpoint")
+                  URL = this.addBrowserURL(object, object.tData);
+
+               bodyElement = this.createHTMLLink(URL,
                   document.createTextNode(object.tData));
+                  }
             else
                bodyElement = document.createTextNode(object.tData);
          break;
@@ -748,6 +748,18 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
          return false;
       }
       return true;
+   }
+
+   addBrowserURL(object, URL) {
+      return this.tAASBrowserURL + "?endpoint=" + encodeURIComponent(URL);
+   }
+
+   makeURLFromAASID(object, id) {
+      var baseURL = this.findPropertyElementUpward(object, "tLocalRootURL");
+      if (!this.isNull(baseURL)) {
+         return baseURL + "/" + id + "/aas";
+      }
+      return id;
    }
 
    // PUT on /submodelElements/$name/value

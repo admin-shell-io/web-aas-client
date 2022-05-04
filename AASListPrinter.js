@@ -29,13 +29,6 @@ class AASListPrinter extends PrinterHtmlElements {
 
       this.storageHandler = new AASWebStorageHandler();
 
-      var pathname = window.location.pathname;
-      pathname = pathname.substring(0, pathname.lastIndexOf('/') + 1);
-      this.tAASBrowserURL = window.location.origin + pathname
-         + "aasBrowser.html";
-      this.tRegistryBrowserURL = window.location.origin + pathname
-         + "registryBrowser.html";
-
       this.colors = new Object();
       this.colors.AASColor = "bg-lenzeblue";
       this.colors.submodelColor = "bg-lenzemiddleblue2";
