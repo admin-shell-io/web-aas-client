@@ -3,17 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-function getQueryVariable(variable) {
-   var query = window.location.search.substring(1);
-   var vars = query.split("&");
-   for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
-      if(pair[0] == variable) {
-         return pair[1];}
-   }
-   return null;
-}
-
 class AASParser extends ParserBase {
    constructor(aasPrinter) {
       super();
@@ -37,7 +26,7 @@ class AASParser extends ParserBase {
    run() {
       var aasStorageHandler = new AASWebStorageHandler();
 
-      var shellURL = getQueryVariable("endpoint");
+      var shellURL = this.getQueryVariable("endpoint");
       if (shellURL) {
          shellURL = decodeURIComponent(shellURL);
          shellURL = this.trimSuffixSlash(shellURL);
