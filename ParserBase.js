@@ -141,13 +141,21 @@ class ParserBase extends Base {
 
          this.addSubmodelURLS(submodel);
          if (fetchSubmodel && (submodel.URLArray.data.length > 0)) {
+            var submodelPrinters = this.newPropertyObject("SubmodelPrinters",
+                                                          submodels,
+                                                          "SubmodelPrinters");
+            submodelPrinters.printer = new Array();
             var nextURL =
                submodel.URLArray.data[submodel.URLArray.data.length -1];
             submodel.URLArray.data.pop();
-            this.getByURL(submodel,
-                          nextURL,
-                          submodelCallback,
-                          submodelErrorCallback);
+
+            var printer = new SubmodelPrinterGeneric(
+               object,
+               this.printer.aasContainer,
+               nextURL,
+               false
+               );
+            submodelPrinters.printer.push(printer);
          }
       }
    }

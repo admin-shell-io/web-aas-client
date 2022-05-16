@@ -21,7 +21,7 @@ class RegistryParser extends ParserBase {
       this.RegistryRoot = this.newTreeObject("RegistryRoot", null,
                                         "AssetAdministrationShellRegistryRoot");
       this.treeRoot = this.RegistryRoot;
-      
+
       this.aasStorageHandler = new AASWebStorageHandler();
    }
 
@@ -34,9 +34,13 @@ class RegistryParser extends ParserBase {
       }
 
       // Set extra base URL
-      var registryURL = new URL(regURL); /*new URL(this.aasStorageHandler.getCurrentRegistry());*/
-      this.setRootURLS(this.RegistryRoot, registryURL, 2);
-      this.RegistryRoot.tURL = registryURL.href;/*this.aasStorageHandler.getCurrentRegistry()*/;
+      if (regURL != null) {
+         var registryURL = new URL(regURL); /*new URL(this.aasStorageHandler.getCurrentRegistry());*/
+         this.setRootURLS(this.RegistryRoot, registryURL, 2);
+         this.RegistryRoot.tURL = registryURL.href;/*this.aasStorageHandler.getCurrentRegistry()*/;
+      }
+      else
+         this.RegistryRoot.tURL = "";
 
       this.getByURL(this.RegistryRoot,
             this.RegistryRoot.tURL,

@@ -111,11 +111,13 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.print(container, object);
    }
 
-   printSubmodel(HTMLElement, object) {
+   printSubmodel(HTMLElement, object, expand = false) {
+      if (this.treeRoot == null)
+         this.treeRoot = object;
       var childObjs = object.childObjs;
 
       var HTMLObject = this.printNode(HTMLElement, object, childObjs.idShort.tData,
-            "Submodel", this.colors.submodelColor, false);
+            "Submodel", this.colors.submodelColor, expand);
 
       this.print(HTMLObject.container, object);
    }
@@ -774,7 +776,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
 
       var data = this.convertToJSON(value, valueType);
 
-      this.aasParser.AjaxHelper.putJSON(element.tURL,JSON.stringify(data),
+      this.parser.AjaxHelper.putJSON(element.tURL,JSON.stringify(data),
             null, null, null);
    }
 
@@ -831,7 +833,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       ctxObj.context = operationElement;
       ctxObj.printer = this;
 
-      this.aasParser.AjaxHelper.postJSON(operationElement.tURLInvoke,
+      this.parser.AjaxHelper.postJSON(operationElement.tURLInvoke,
          JSON.stringify(outputJSON), this.operationResult, null, ctxObj);
    }
 
@@ -840,7 +842,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       var context = this.context;
       var printer = this.printer;
 
-      printer.aasParser.parseOperation(ret, context.tName, context);
+      printer.parser.parseOperation(ret, context.tName, context);
 }
 
    findChildElementUpward(object, name) {
@@ -909,7 +911,7 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
          var transObj = new Object();
          transObj.context = values[key];
          transObj.printer = this;
-         this.aasParser.getByURL(transObj,
+         this.parser.getByURL(transObj,
                values[key].tURL,
                this.valueResult,
                null);
@@ -931,6 +933,6 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       var value = ret;
       if (printer.isObject(value))
          value = value.value;
-      printer.aasParser.parseValue(value, context.tName, context.parentObj);
+      printer.parser.parseValue(value, context.tName, context.parentObj);
    }
 }

@@ -4,7 +4,7 @@
  */
 
 class AASParser extends ParserBase {
-   constructor(aasPrinter) {
+   constructor(printer) {
       super();
       /* general */
       this.run = this.run.bind(this);
@@ -12,7 +12,7 @@ class AASParser extends ParserBase {
       /* AAS */
       this.parseAASRaw = this.parseAASRaw.bind(this);
 
-      this.AASPrinter = aasPrinter;
+      this.printer = printer;
       this.AjaxHelper = new AjaxHelper();
       /* Variables */
       this.aasURL = "";
@@ -62,7 +62,7 @@ class AASParser extends ParserBase {
          that.parseString("Could not retrieve AAS", "Description", error);
          that.parseString(URL, "URL", error);
          that.parseValue(status.status, "ErrorCode", error);
-         that.AASPrinter.printError(error, "");
+         that.printer.printError(error, "");
          return;
       }
 
@@ -81,7 +81,7 @@ class AASParser extends ParserBase {
       that.parseString(URL, "URL", error);
       if (status.status != 0)
          that.parseValue(status.status, "ErrorCode", error);
-      that.AASPrinter.printError(error, "");
+      that.printer.printError(error, "");
    }
 
    /* unbound for compound -> this */
@@ -104,7 +104,7 @@ class AASParser extends ParserBase {
       that.parseString(URL, "URL", error);
       if (status.status != 0)
          that.parseValue(status.status, "ErrorCode", error);
-      that.AASPrinter.printError(error, "");
+      that.printer.printError(error, "");
    }
 
    setError(errObj) {
@@ -119,7 +119,7 @@ class AASParser extends ParserBase {
          AAS = JSON.entity;
       var aas = this.parseAAS(AAS, this.AASRoot, true, this.parseSubmodelsRaw,
                     this.setErrorSubmodels);
-      this.AASPrinter.printAAS(this.AASPrinter.rootElement, aas);
+      this.printer.printAAS(this.printer.rootElement, aas);
    }
 
    /* unbound for compound -> this */
@@ -130,50 +130,5 @@ class AASParser extends ParserBase {
       this.parentObj.parseSubmodels(submodels, this.object, true, 
                                     this.parentObj.parseSubmodelRaw,
                                     this.parentObj.setErrorSubmodel);
-   }
-
-   /* unbound for compound -> this */
-   parseSubmodelRaw(JSON) {
-      var submodelJSON = JSON;
-      if(this.parentObj.elementExists(submodelJSON, "entity"))
-         submodelJSON = submodelJSON.entity;
-      if (this.parentObj.elementExists(submodelJSON, "idShort"))
-         var submodel = this.parentObj.parseSubmodel(submodelJSON, this.URL,
-         this.object.parentObj.parentObj.childObjs.submodels);
-      this.parentObj.AASPrinter.printSubmodel(
-         this.parentObj.AASPrinter.aasContainer, submodel);
-   }
-
-   /* unbound for compound -> this */
-   setErrorSubmodel() {
-      if (this.retry < 1) {
-         this.retry++;
-         this.parentObj.AjaxHelper.getJSON(this.URL,
-                                           this.parentObj.parseSubmodelRaw,
-                                           this.parentObj.setErrorSubmodel,
-                                           this);
-         return;
-      }
-
-      var nextURL = "";
-      var nextRun = false;
-      if (this.object.URLArray.data.length > 0) {
-         nextURL = this.object.URLArray.data[this.object.URLArray.data.length -1]
-         this.object.URLArray.data.pop();
-         nextRun = true;
-      }
-      if (nextRun) {
-         this.parentObj.getByURL(this.object,
-                                 nextURL,
-                                 this.parentObj.parseSubmodelRaw,
-                                 this.parentObj.setErrorSubmodel);
-         return;
-      }
-
-      var error = new Object();
-      error.component = "Submodel";
-      error.errorString = "Retrieving the Submodel failed";
-      error.URL = this.URL;
-      this.parentObj.setError(error);
    }
 }

@@ -13,7 +13,7 @@ class AASPrinterGeneric extends AASPrinterMetamodelElements {
       //this.findElement = this.findElement.bind(this);
       /* variables */
       this.treeRoot = null;
-      this.aasParser = new AASParser(this);
+      this.parser = new AASParser(this);
 
       /*
        * We need to make sure the container for our async submodels is ready
@@ -21,7 +21,7 @@ class AASPrinterGeneric extends AASPrinterMetamodelElements {
        */
       //this.aasContainer = this.createBootstrapContainerFluid();
 
-      this.aasParser.run();
+      this.parser.run();
 
       //window.setInterval(this.timedUpdateValues, 2000);
       
