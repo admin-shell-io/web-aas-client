@@ -98,7 +98,7 @@ class AASListPrinter extends PrinterHtmlElements {
 
       var a = this.createHTMLLink("#", img, "");
       a.classList.add("close");
-      a.setAttribute("data-dismiss", "modal"); 
+      a.setAttribute("data-bs-dismiss", "modal"); 
 
       divHeader.appendChild(h);
       divHeader.appendChild(a);
@@ -145,11 +145,11 @@ class AASListPrinter extends PrinterHtmlElements {
                                         this.colors.AASColor, false);
          var img = this.createImage(
            "local_icons/Breeze/actions/22/edit-delete.svg", "X", 22, 22);
-         img.classList.add("align-baseline");
+         img.classList.add("align-middle");
          img.classList.add("float-right");
          img.setAttribute("data-html-target", "#" + node.contentRow.id);
 
-         node.contentRow.setAttribute("data-target", key);
+         node.contentRow.setAttribute("data-bs-target", key);
          if (type == "AAS") {
             img.onclick = this.removeAASEntry;
             node.contentRow.setAttribute("data-type", "AASHostURL");
@@ -158,12 +158,6 @@ class AASListPrinter extends PrinterHtmlElements {
             img.onclick = this.removeRegistryEntry;
             node.contentRow.setAttribute("data-type", "RegistryHostURL");
          }
-
-         //var a = this.createHTMLLink("#", img);
-         //a.setAttribute("data-html-target", "#" + node.contentRow.id);
-         //a.onclick = this.removeEntry;
-         
-         
          var div_img = document.createElement("div");
          div_img.appendChild(img);
 
@@ -171,6 +165,7 @@ class AASListPrinter extends PrinterHtmlElements {
          div_img.classList.add("d-flex");
          div_img.classList.add("flex-wrap");
          div_img.classList.add("align-items-center");
+         div_img.classList.add("p-0");
          node.title.contentRow.appendChild(div_img);
          
          for (var [key2, entry] of urlMap) {
@@ -190,9 +185,14 @@ class AASListPrinter extends PrinterHtmlElements {
       var bodyElement = this.createHTMLLink(fullUrl, 
          document.createTextNode(url), "_blank");
 
+      var imgLink = this.createImage(
+         "local_icons/Breeze/actions/22/link.svg", valueName, 22, 22);
+      imgLink.classList.add("align-middle");
+      imgLink.classList.add("float-left");
+
       var img = this.createImage(
          "local_icons/Breeze/actions/22/edit-delete.svg", "X", 22, 22);
-      img.classList.add("align-baseline");
+      img.classList.add("align-middle");
       img.classList.add("float-right");
 
       var div_img = document.createElement("div");
@@ -203,13 +203,13 @@ class AASListPrinter extends PrinterHtmlElements {
       div_img.classList.add("flex-wrap");
       div_img.classList.add("align-items-center");
       var content = [
-         document.createTextNode(valueName),
+         imgLink,
          bodyElement,
          img,
          ];
       var row = this.createRowWithContent(HTMLElement, 
-         Array("col-2", "col", "col-auto"), content, true);
-         row.setAttribute("data-target", url);
+         Array("col-auto", "col", "col-auto"), content, true);
+         row.setAttribute("data-bs-target", url);
          if (type == "AAS") {
             img.onclick = this.removeAASEntry;
             row.setAttribute("data-type", "AASURL");
@@ -238,7 +238,7 @@ class AASListPrinter extends PrinterHtmlElements {
          element = this.listBodys.aasListBody.querySelector(elementId);
       else
          element = this.listBodys.registryListBody.querySelector(elementId);
-      var url = element.getAttribute("data-target");
+      var url = element.getAttribute("data-bs-target");
       var type = element.getAttribute("data-type");
       switch (type) {
       case "AASURL":
