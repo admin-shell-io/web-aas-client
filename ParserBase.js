@@ -60,8 +60,6 @@ class ParserBase extends Base {
       this.newPropertyObject = this.newPropertyObject.bind(this);
       this.addChildTreeObject = this.addChildTreeObject.bind(this);
       this.setTreeObjectType = this.setTreeObjectType.bind(this);
-      this.hasParentType = this.hasParentType.bind(this);
-      this.hasInParentTreeType = this.hasInParentTreeType.bind(this);
       this.setURL = this.setURL.bind(this);
       this.copyParentURL = this.copyParentURL.bind(this);
       this.setURLsOperation = this.setURLsOperation.bind(this);
@@ -1148,22 +1146,6 @@ class ParserBase extends Base {
 
    setTreeObjectType(obj, type) {
       obj.tType = type;
-   }
-
-   hasParentType(obj, type) {
-      if (!this.elementExists(obj, "parentObj"))
-         return false;
-      if (obj.parentObj.tType === type)
-         return true;
-      return false;
-   }
-
-   hasInParentTreeType(obj, type) {
-      if (!this.elementExists(obj, "parentObj"))
-         return false;
-      if (this.hasParentType(obj, type))
-         return true;
-      return this.hasInParentTreeType(obj.parentObj, type);
    }
 
    setURL(object, name = "") {

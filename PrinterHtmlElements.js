@@ -47,6 +47,7 @@ class PrinterHtmlElements extends Base {
       var tempURL = window.location.origin + window.location.pathname;
       tempURL = tempURL.substring(0, tempURL.lastIndexOf("/") + 1);
       this.tAASBrowserURL = tempURL + "aasBrowser.html";
+      this.tSubmodelBrowserURL = tempURL + "submodelBrowser.html";
       this.tRegistryBrowserURL = tempURL + "registryBrowser.html";
    }
 

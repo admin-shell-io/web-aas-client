@@ -11,6 +11,9 @@ class Base {
       this.isArray = this.isArray.bind(this);
       this.elementExists = this.elementExists.bind(this);
       this.convertToJSON = this.convertToJSON.bind(this);
+      this.hasParentType = this.hasParentType.bind(this);
+      this.hasInParentTreeType = this.hasInParentTreeType.bind(this);
+      this.getParentByType = this.getParentByType.bind(this);
    }
 
    getQueryVariable(variable) {
@@ -98,5 +101,29 @@ class Base {
          return parseBoolean(data);
          break;
       }
+   }
+
+   hasParentType(obj, type) {
+      if (!this.elementExists(obj, "parentObj"))
+         return false;
+      if (obj.parentObj.tType === type)
+         return true;
+      return false;
+   }
+
+   hasInParentTreeType(obj, type) {
+      if (!this.elementExists(obj, "parentObj"))
+         return false;
+      if (this.hasParentType(obj, type))
+         return true;
+      return this.hasInParentTreeType(obj.parentObj, type);
+   }
+
+      getParentByType(obj, type) {
+      if (!this.elementExists(obj, "parentObj"))
+         return null;
+      if (this.hasParentType(obj, type))
+         return obj.parentObj;
+      return this.getParentByType(obj.parentObj, type);
    }
 }

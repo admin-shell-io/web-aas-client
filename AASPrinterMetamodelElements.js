@@ -67,8 +67,11 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       this.findElementsByType = this.findElementsByType.bind(this);
       this.timedUpdateValues = this.timedUpdateValues.bind(this);
       this.updateValue = this.updateValue.bind(this);
-      this.addBrowserURL = this.addBrowserURL.bind(this);
+      this.addGenericBrowserURL = this.addGenericBrowserURL.bind(this);
+      this.addAASBrowserURL = this.addAASBrowserURL.bind(this);
+      this.addSubmodelBrowserURL = this.addSubmodelBrowserURL.bind(this);
       this.makeURLFromAASID = this.makeURLFromAASID.bind(this);
+      this.makeURLFromSubmodelID = this.makeURLFromSubmodelID.bind(this);
       /* variables */
       this.valueUpdateArray = new Array();
 
@@ -319,18 +322,24 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       content.push(document.createTextNode("Referenced Type: " + childObjs.type.tData));
 
       var dataElement = null;
-
-      if (childObjs.type.tData == "AssetAdministrationShell") {
-         if (childObjs.local.tData) {
+      if (childObjs.local.tData) {
+         if (childObjs.type.tData == "AssetAdministrationShell") {
             var url = this.makeURLFromAASID(object, childObjs.value.tData);
-            var completeURL = this.addBrowserURL(object, url);
+            var completeURL = this.addAASBrowserURL(object, url);
             dataElement = this.createHTMLLink(completeURL,
                   document.createTextNode(childObjs.value.tData));
          }
+         if (childObjs.type.tData == "Submodel") {
+            var url = this.makeURLFromSubmodelID(object, childObjs.value.tData);
+            var completeURL = this.addSubmodelBrowserURL(object, url);
+            dataElement = this.createHTMLLink(completeURL,
+                  document.createTextNode(childObjs.value.tData));
+         }
+      }
+      else {
          // handle non-local references here!
          console.log("Non-local reference as URL");
       }
-
       // default
       if (this.isNull(dataElement))
          dataElement = document.createTextNode(childObjs.value.tData);
@@ -600,8 +609,12 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       case "CONSTANT":
             if (this.isLink(object)) {
                var URL = object.tData;
-               if (object.parentObj.tType = "Endpoint")
-                  URL = this.addBrowserURL(object, object.tData);
+               if (this.hasInParentTreeType(object, "Endpoint")) {
+                  if (this.hasInParentTreeType(object, "AssetAdministrationShellDescriptor"))
+                     URL = this.addAASBrowserURL(object, object.tData);
+                  if (this.hasInParentTreeType(object, "SubmodelDescriptor"))
+                     URL = this.addSubmodelBrowserURL(object, object.tData);
+                  }
 
                bodyElement = this.createHTMLLink(URL,
                   document.createTextNode(object.tData));
@@ -752,8 +765,16 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       return true;
    }
 
-   addBrowserURL(object, URL) {
-      return this.tAASBrowserURL + "?endpoint=" + encodeURIComponent(URL);
+   addGenericBrowserURL(browserURL, URL) {
+      return browserURL + "?endpoint=" + encodeURIComponent(URL);
+   }
+
+   addAASBrowserURL(object, URL) {
+      return this.addGenericBrowserURL(this.tAASBrowserURL, URL);
+   }
+
+   addSubmodelBrowserURL(object, URL) {
+      return this.addGenericBrowserURL(this.tSubmodelBrowserURL, URL);
    }
 
    makeURLFromAASID(object, id) {
@@ -761,6 +782,16 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       if (!this.isNull(baseURL)) {
          return baseURL + "/" + id + "/aas";
       }
+      return id;
+   }
+
+   makeURLFromSubmodelID(object, id) {
+      var submodel = this.getParentByType(object, "Submodel");
+      if (!this.isNull(submodel) && this.elementExists(submodel, "tURL"))
+         return submodel.tURL;
+      /* FIXME: We have to find the submodel idShort for various references to
+       * submodels.
+       */
       return id;
    }
 
