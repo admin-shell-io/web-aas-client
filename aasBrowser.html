@@ -35,27 +35,35 @@ $(document).ready(function() {
 </head>
 <body>
 <div id = "nav" class = "container-fluid">
-<nav class="navbar navbar-expand pb-0">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="index.html">
       <img src="local_icons/PlattformI4.0/logo.svg" width="100" class="d-inline-block align-middle" alt="">
     </a>
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active">Asset Administration Shell - Browser</a>
-  </li>
-    <li class="nav-item">
-    <a class="nav-link nav-right" href="registryBrowser.html" onclick="">Asset Administration Shell - Registry Browser</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link nav-right" onclick="javascript:showAASList($('#selectAASModal'));">Select AAS</a>
-  <li>
-  <li class="nav-item">
-    <a class="nav-link nav-right" href="LICENSE.txt">Project License</a>
-  <li>
-  <li class="nav-item">
-    <a class="nav-link nav-right" href="ThirdPartyLicenses.txt">3rd Party Licenses</a>
-  <li>
-</ul>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active">AAS Viewer</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link nav-right" href="submodelBrowser.html" onclick="">Submodel Viewer</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link nav-right" href="registryBrowser.html" onclick="">Registry Viewer</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-right" onclick="javascript:showAASList($('#selectAASModal'));">Select Endpoint</a>
+      <li>
+      <li class="nav-item">
+        <a class="nav-link nav-right" href="LICENSE.txt">Project License</a>
+      <li>
+      <li class="nav-item">
+        <a class="nav-link nav-right" href="ThirdPartyLicenses.txt">3rd Party Licenses</a>
+      <li>
+    </ul>
+  </div>
 </nav>
 
   <div id = "rootElement" class = "col">
