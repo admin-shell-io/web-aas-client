@@ -989,7 +989,14 @@ class ParserBase extends Base {
    }
 
    parseAssetAdministrationShellDescriptor(JSON, name, obj) {
-      var registryElement = this.newTreeObject(JSON.idShort, obj,
+      var name = null;
+      if (this.elementExists(JSON, "identification") &&
+          this.elementExists(JSON.identification, "id"))
+          name = JSON.identification.id;
+      else
+          name = JSON.idShort;
+
+      var registryElement = this.newTreeObject(name, obj,
          "AssetAdministrationShellDescriptor");
 
       // administration [AdministrativeInformation] - (0-1)
