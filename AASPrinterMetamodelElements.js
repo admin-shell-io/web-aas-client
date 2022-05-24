@@ -98,7 +98,8 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       var childObjs = object.childObjs;
 
       var card = this.createBootstrapColCard(Array("p-0"));
-      var cardBody = this.createBootstrapCardBody(0, 1);
+      var cardBody = this.createBootstrapCardBody(0, 0, false,
+         this.colors.AASColor);
       var container = this.aasContainer;
 
       card.appendChild(cardBody);
@@ -689,7 +690,8 @@ class AASPrinterMetamodelElements extends PrinterHtmlElements {
       var childObjs = object.childObjs;
 
       var card = this.createBootstrapColCard(Array("p-0"));
-      var cardBody = this.createBootstrapCardBody(0, 1);
+      var cardBody = this.createBootstrapCardBody(0, 0, false,
+         this.colors.AASColor);
       var container = this.aasContainer;
 
       card.appendChild(cardBody);
