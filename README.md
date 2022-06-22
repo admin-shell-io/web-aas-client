@@ -1,3 +1,9 @@
+# New Repository
+This project moved under the Eclipse umbrella - it is further developed at
+[https://github.com/eclipse-digitaltwin/aaswc](https://github.com/eclipse-digitaltwin/aaswc)
+
+Please direct any merge requests or issues to the new repository!
+
 # web-aas-client
 This project provides a viewer for Asset Administration Shells, which can be
 used client-side. It provides a pure javascript web application to communicate
